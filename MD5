@@ -1,0 +1,10 @@
+90a46940210f544d6ab211d84dd61b08 *DESCRIPTION
+4c3907b5cb52ec4c3cafe79250fe0a58 *NAMESPACE
+ec29ce60616c4c3dcef56f9cb5cf5dcc *R/OptRegionQuad.R
+978ff550437104267d6d7226d63ffde6 *R/OptRegionTps.R
+30528442057bd902aa5540c12261f94e *data/Drug.txt
+706348e527f835fa59da6008b2c2d226 *inst/doc/OptimaRegion-manual.pdf
+d8c2cad42e730bf39e7289e9dd8923af *man/Drug.Rd
+73b4654aa9c278f8b993de8a5b9902e2 *man/OptRegionQuad.Rd
+1ae640d8aa127c756775e47d3fba4c40 *man/OptRegionTps.Rd
+e97c4a15b6295dfd4332742a44d04fed *man/plotConvexHull.Rd
