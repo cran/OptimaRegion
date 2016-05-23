@@ -21,7 +21,8 @@ OptRegionQuad<-function(X,y,nosim=200,alpha=0.05,LB,UB,triangularRegion=FALSE, v
   #       alpha--confidence level (0<alpha<1; default=0.05)
   #       LB--vector of lower bounds for x (2x1 vector) above which the maximum is sought
   #       UB--vector of upper bounds for x (2x1 vector) below which the maximum is sought
-  #       triangularRegion--logical: if TRUE it will constrain the maximum points to lie inside a triangle defined by the coordinates (0,0), and those in "vertex1", and "vertex2", see below (in addition to being constrained to lie inside the region defined by LB and UB). NOTE: use TRUE when the treatments form a triangular experimental region in shape. If FALSE, maxima will only be constrained to lie inside the rectangular region defined by LB and UB. Default is FALSE.
+  #       triangularRegion--logical: if TRUE it will constrain the maximum points to lie inside a triangle defined by     #       the coordinates (0,0), and those in 'vertex1', and 'vertex2', see below (in addition to being constrained to
+  #       lie inside the region defined by LB and UB). NOTE: use TRUE when the treatments form a triangular experimental   #       region in shape. If FALSE, maxima will only be constrained to lie inside the rectangular region defined by LB   #       and UB. Default is FALSE.
   #       vertex1---2 times 1 vector with coordinates defining one of the 3 vertices of a triangular region. Must be provided if triangularRegion is TRUE (NOTE: vertices numbered clockwise)
   #       vertex2--2 times 1 vector with coordinates defining a second  vertex of a triangular region (third vertex is (0,0) by default). Must be provided if triangularRegion is TRUE (NOTE: vertices numbered clockwise)
   #       maximization--logical: if TRUE (default) it maximizes it FALSE it minimizes

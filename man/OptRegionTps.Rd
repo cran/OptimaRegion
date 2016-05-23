@@ -7,10 +7,9 @@
 Computes and displays the confidence region on the location of the optima of a thin plate spline surface in 2 factors using bootstrapping.
 }
 \usage{OptRegionTps(X, y, lambda=0.04, nosim=1000, alpha=0.05, LB, UB,
-triangularRegion=FALSE, vertex1=NULL, vertex2=NULL, maximization=TRUE,
-xlab="Protein eaten, mg",
-ylab="Carbohydrate eaten, mg",
-outputPDFFile="CRplot.pdf",outputOptimaFile="Optima.txt")
+triangularRegion=FALSE, vertex1=NULL, vertex2=NULL, maximization=TRUE, xlab=
+"Protein eaten, mg",ylab="Carbohydrate eaten, mg",outputPDFFile="CRplot.pdf",
+outputOptimaFile="Optima.txt")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,7 +28,7 @@ outputPDFFile="CRplot.pdf",outputOptimaFile="Optima.txt")
   \item{outputOptimaFile}{name of the text file containing the coordinates of all the optima found (same information as in output vector xin, see below)}
 
 }
-\details{This program approximates the confidence region (CR) of the location of the optimum of a Thin Plate Spline (TPS) in 2 regressors x constrained inside  a rectangular region defined by LB and UB. If triangularRegion=TRUE it will also contrain the optimum to lie inside the experimental region assumed to be well approximated by a triangle. The CR is generated pointwise by bootstrapping the residuals of a TPS fit to the given (X,y) data, refitting Tps models, and solving the corresponding constrained maximization (or minimization) problems. The confidence region is approximated by the convex hull of all the solutions (x1*,x2*) found.
+\details{This program approximates the confidence region (CR) of the location of the optimum of a Thin Plate Spline (TPS) in 2 regressors x constrained inside  a rectangular region defined by LB and UB. If triangularRegion=TRUE it will also contain the optimum to lie inside the experimental region assumed to be well approximated by a triangle. The CR is generated point wise by bootstrapping the residuals of a TPS fit to the given (X,y) data, refitting Tps models, and solving the corresponding constrained maximization (or minimization) problems. The confidence region is approximated by the convex hull of all the solutions (x1*,x2*) found.
 
   Usage assuming all default options:
 
@@ -44,10 +43,11 @@ outputPDFFile="CRplot.pdf",outputOptimaFile="Optima.txt")
 %% ...
 }
 \references{
-Del Castillo, E., Hunt, J., and Rapkin, J. , "Data-depth bootstrapped confidence
-regions for the optima of parametric and nonparametric response surfaces".
+Del Castillo, E., Hunt, J., Rapkin, J., and Zarmehri, S. , "Confidence
+regions for the location of response surface optima: the R package OptimaRegion".
 }
-\author{Enrique del Castillo, \email{exd13@psu.edu}
+\author{Enrique del Castillo \email{exd13@psu.edu}, John Hunt
+\email{J.Hunt@exeter.ac.uk} and James Rapkin \email{jr297@exeter.ac.uk}
 %%  ~~who you are~~
 }
 \note{Upon completion, a PDF file containing the CR plot with name as set in ouputPDFFile  is created. A text file named as set in outputOptimaFile with all xin values is created too.
@@ -68,8 +68,7 @@ rnorm(100,0,8))
 ## Find a 95 percent confidence region for the maximum of a Thin Plate Spline
 model fitted to these data
 
-out<-OptRegionTps(X=X,y=y,nosim=200,LB=c(-2,-2),UB=c(2,2), xlab="X1",ylab="X2",
-outputPDFFile="CR_plot.pdf")
+out<-OptRegionTps(X=X,y=y,nosim=200,LB=c(-2,-2),UB=c(2,2), xlab="X1",ylab="X2")
 
 ## Example 2: a mixture-amount experiment in two components (Drug dataset) with
 non-normal data. Note triangular experimental region. Resulting 95p confidence
