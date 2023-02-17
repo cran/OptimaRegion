@@ -4,15 +4,34 @@
 \alias{CRcompare}
 \title{Confidence interval for the distance between two response surface optima (2 regressors)}
 \usage{
-CRcompare(X1, y1, X2, y2, responseType = "TPS", lambda = 0.04,
-  nosim1and2 = 200, alpha = 0.05, LB1, LB2, UB1, UB2,
-  triangularRegion1 = FALSE, vertex11 = NULL, vertex21 = NULL,
-  triangularRegion2 = FALSE, vertex12 = NULL, vertex22 = NULL,
-  maximization1 = TRUE, maximization2 = TRUE,
+CRcompare(
+  X1,
+  y1,
+  X2,
+  y2,
+  responseType = "TPS",
+  lambda = 0.04,
+  nosim1and2 = 200,
+  alpha = 0.05,
+  LB1,
+  LB2,
+  UB1,
+  UB2,
+  triangularRegion1 = FALSE,
+  vertex11 = NULL,
+  vertex21 = NULL,
+  triangularRegion2 = FALSE,
+  vertex12 = NULL,
+  vertex22 = NULL,
+  maximization1 = TRUE,
+  maximization2 = TRUE,
   xlab1and2 = "Protein eaten (mg)",
   ylab1and2 = "Carbohydrates eaten (mg)",
-  outputPDFFile1 = "CR_plot1.pdf", outputOptimaFile1 = "Optima1.txt",
-  outputPDFFile2 = "CR_plot2.pdf", outputOptimaFile2 = "Optima2.txt")
+  outputPDFFile1 = "CR_plot1.pdf",
+  outputOptimaFile1 = "Optima1.txt",
+  outputPDFFile2 = "CR_plot2.pdf",
+  outputOptimaFile2 = "Optima2.txt"
+)
 }
 \arguments{
 \item{X1}{nx2 matrix with the values of the 2 regressors (experimental factors)
@@ -149,7 +168,7 @@ intervals for the mean and median distance.
 Enrique del Castillo \email{exd13@psu.edu},
 Peng Chen \email{pfc5098@psu.edu},
 Adam Meyers \email{akm5733@psu.edu},
-John Hunt \email{J.Hunt@exeter.ac.uk} and
+John Hunt \email{J.Hunt@westernsydney.edu.au} and
 James Rapkin \email{jr297@exeter.ac.uk}.
 }
 

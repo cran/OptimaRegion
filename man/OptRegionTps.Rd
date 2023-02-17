@@ -4,19 +4,31 @@
 \alias{OptRegionTps}
 \title{Confidence region for optima of Thin Plate Spline Models (2 regressors)}
 \usage{
-OptRegionTps(X, y, lambda = 0.04, nosim = 1000, alpha = 0.05, LB, UB,
-  triangularRegion = FALSE, vertex1 = NULL, vertex2 = NULL,
-  maximization = TRUE, xlab = "Protein eaten, mg",
-  ylab = "Carbohydrate eaten, mg", outputPDFFile = "CRplot.pdf",
-  outputOptimaFile = "Optima.txt")
+OptRegionTps(
+  X,
+  y,
+  lambda = 0.04,
+  nosim = 1000,
+  alpha = 0.05,
+  LB,
+  UB,
+  triangularRegion = FALSE,
+  vertex1 = NULL,
+  vertex2 = NULL,
+  maximization = TRUE,
+  xlab = "Protein eaten, mg",
+  ylab = "Carbohydrate eaten, mg",
+  outputPDFFile = "CRplot.pdf",
+  outputOptimaFile = "Optima.txt"
+)
 }
 \arguments{
-\item{X}{nx2 matrix with the values of the 2 regressors (experimental factors)
+\item{X}{n*2 matrix with the values of the 2 regressors (experimental factors)
 in the n observations. Note: this can have replicates.
 They will be eliminated by the program and the corresponding
 y-values averaged}
 
-\item{y}{nx1 vector of response value observations, in the same order corresponding
+\item{y}{n*1 vector of response value observations, in the same order corresponding
 to the rows of X}
 
 \item{lambda}{penalization parameter (larger values implies more smoothing).
@@ -26,9 +38,9 @@ Default is 0.04}
 
 \item{alpha}{confidence level (0 < alpha < 1; default = 0.05)}
 
-\item{LB}{vector of lower bounds for x (2x1 vector) above which the maximum is sought}
+\item{LB}{vector of lower bounds for x (2*1 vector) above which the maximum is sought}
 
-\item{UB}{vector of upper bounds for x (2x1 vector) below which the maximum is sought}
+\item{UB}{vector of upper bounds for x (2*1 vector) below which the maximum is sought}
 
 \item{triangularRegion}{logical: if TRUE it will constrain the maximum points to lie
 inside a triangle defined by the coordinates (0,0), and those
@@ -63,7 +75,7 @@ the optima found (same information as in output vector xin, see below)}
 }
 \value{
 Upon completion, a PDF file containing the CR plot with name as set in
-        ouputPDFFile is created and a text file with all xin values is created too.
+        ouputPDFFile is created and a text file with all optima in the CR is created too.
         Also, the function returns a list containing
         the following 2 components:
         \describe{
@@ -76,7 +88,7 @@ Upon completion, a PDF file containing the CR plot with name as set in
         }
 }
 \description{
-Computes and displays an approximated (1 - alpha) confidence region (CR) for
+Computes and displays an approximated (1 - alpha)*100% confidence region (CR) for
 the linear-constrained maximum of a penalized Thin Plate Spline (TPS) model
 in 2 controllable factors
 \insertCite{DelCastilloCR}{OptimaRegion}.
@@ -110,7 +122,7 @@ and its "Tps" function.
 Enrique del Castillo \email{exd13@psu.edu},
 Peng Chen \email{pfc5098@psu.edu},
 Adam Meyers \email{akm5733@psu.edu},
-John Hunt \email{J.Hunt@exeter.ac.uk} and
+John Hunt \email{J.Hunt@westernsydney.edu.au} and
 James Rapkin \email{jr297@exeter.ac.uk}.
 }
 
@@ -118,7 +130,7 @@ James Rapkin \email{jr297@exeter.ac.uk}.
 \dontrun{
 # Example 1: randomly generated 2-variable response surface data
 X <- cbind(runif(100, -2, 2), runif(100, -2, 2))
-y <- as.matrix(72 - 11.78 * X[, 1] + 0.74 * X[, 2] - 7.25 * X[, 1]^2 - 
+y <- as.matrix(72 - 11.78 * X[, 1] + 0.74 * X[, 2] - 7.25 * X[, 1]^2 -
   7.55 * X[, 2]^2 - 4.85 * X[, 1] * X[, 2] + rnorm(100, 0, 8))
 # Find a 95 percent confidence region for the maximum of a Thin Plate Spline
 # model fitted to these data

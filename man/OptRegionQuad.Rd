@@ -4,27 +4,38 @@
 \alias{OptRegionQuad}
 \title{Confidence region for optima of quadratic polynomial models (2 regressors)}
 \usage{
-OptRegionQuad(X, y, nosim = 200, alpha = 0.05, LB, UB,
-  triangularRegion = FALSE, vertex1 = NULL, vertex2 = NULL,
-  maximization = TRUE, xlab = "Protein eaten, mg",
-  ylab = "Carbohydrates eaten, mg", outputPDFFile = "CRplot.pdf")
+OptRegionQuad(
+  X,
+  y,
+  nosim = 200,
+  alpha = 0.05,
+  LB,
+  UB,
+  triangularRegion = FALSE,
+  vertex1 = NULL,
+  vertex2 = NULL,
+  maximization = TRUE,
+  xlab = "Protein eaten, mg",
+  ylab = "Carbohydrates eaten, mg",
+  outputPDFFile = "CRplot.pdf"
+)
 }
 \arguments{
-\item{X}{nx2 matrix with the values of the 2 regressors (experimental factors)
+\item{X}{n*2 matrix with the values of the 2 regressors (experimental factors)
 in the n observations. Note: this can have replicates.
 They will be eliminated by the program and the corresponding
 y-values averaged}
 
-\item{y}{nx1 vector of response value observations, in the same order corresponding
+\item{y}{n*1 vector of response value observations, in the same order corresponding
 to the rows of X}
 
 \item{nosim}{number of simulations (default = 200)}
 
 \item{alpha}{confidence level (0 < alpha < 1; default = 0.05)}
 
-\item{LB}{vector of lower bounds for x (2x1 vector) above which the maximum is sought}
+\item{LB}{vector of lower bounds for x (2*1 vector) above which the maximum is sought}
 
-\item{UB}{vector of upper bounds for x (2x1 vector) below which the maximum is sought}
+\item{UB}{vector of upper bounds for x (2*1 vector) below which the maximum is sought}
 
 \item{triangularRegion}{logical: if TRUE it will constrain the maximum points to lie
 inside a triangle defined by the coordinates (0,0), and those
@@ -68,24 +79,24 @@ Upon completion, a PDF file containing the CR plot with name as set in
         }
 }
 \description{
-Computes and displays an approximated (1 - alpha) confidence region (CR) for
+Computes and displays an approximated (1 - alpha)*100% confidence region (CR) for
 the linear-constrained maximum of a quadratic polynomial regression model
 in 2 controllable factors
 \insertCite{DelCastilloCR}{OptimaRegion}.
 Grey region on output plot is the approximate CR.
 The CR is computed as the convex hull of the coordinates of the optima found
-from simulating nosim quadratic polynomial regressions to the data (therefore,
+from simulating and optimizing nosim quadratic polynomial regressions from the data (therefore,
 it is an approximate CR). The mean value of the optimum is shown as a red point,
 and a smoothed contour plot of the X,y data obtained via thin plate splines is
 shown as well.
 }
 \details{
 This program approximates the confidence region (CR) of the location of
-the optimum of a regression function in 2 regressors x constrained inside
+the optimum of a regression function in 2 regressors constrained inside
 a rectangular region defined by LB and UB. If triangularRegion = TRUE it will also
-contrain the optimum to lie inside the experimental region assumed to be well
-approximated by a triangle. The CR is generated pointwise by simulating from the
-posterior of the regression parameters (theta) and solving the corresponding
+contrain the optimum to lie inside the experimental region (assumed to be well
+approximated by a triangle). The CR is generated pointwise by simulating from the
+posterior of the regression parameters and solving the corresponding
 constrained maximization problem. The confidence region is approximated by the convex
 hull of all the solutions found.
 The simulation approach is based on the "CS"
@@ -102,7 +113,7 @@ Hence, this version does not rely on any normality assumption on the data.
 Enrique del Castillo \email{exd13@psu.edu},
 Peng Chen \email{pfc5098@psu.edu},
 Adam Meyers \email{akm5733@psu.edu},
-John Hunt \email{J.Hunt@exeter.ac.uk} and
+John Hunt \email{J.Hunt@westernsydney.edu.au} and
 James Rapkin \email{jr297@exeter.ac.uk}.
 }
 

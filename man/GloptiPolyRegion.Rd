@@ -2,61 +2,75 @@
 % Please edit documentation in R/GloptiPolyRegion.R
 \name{GloptiPolyRegion}
 \alias{GloptiPolyRegion}
-\title{Confidence region for optima of up to cubic polynomial models (up to 5 regressors)}
+\title{Confidence region for optima of higher order polynomial models in multiple factors}
 \usage{
-GloptiPolyRegion(X, y, degree, lb, ub, B = 200, alpha = 0.05,
-  maximization = TRUE, axes_labels = NULL,
-  outputPDFFile = "CRplot.pdf", verbose = TRUE)
+GloptiPolyRegion(
+  X,
+  y,
+  degree,
+  lb,
+  ub,
+  B = 200,
+  alpha = 0.05,
+  maximization = TRUE,
+  axes_labels = NULL,
+  outputPDFFile = "CRplot.pdf",
+  verbose = TRUE,
+  local_plot = FALSE
+)
 }
 \arguments{
-\item{X}{numeric matrix of shape (N, k); N is the sample size; k is the
-number of variables, which can be 2, 3, 4 and 5; X specifies the
+\item{X}{an N*k numeric matrix where N is the number of experiments and k is the
+number of variables/factors (an integer in [2,5]). X specifies the
 design matrix}
 
-\item{y}{numeric vector of shape (N, 1); y specifies the responses}
+\item{y}{N*1 numeric vector that specifies the responses}
 
-\item{degree}{integer scalor; degree specifies the order of the polynomial
+\item{degree}{integer scalar; degree specifies the order of the polynomial
 model, which can be 2 or 3}
 
-\item{lb}{numeric vector of shape (1, k); lb specifies the lower bounds for
+\item{lb}{numeric vector of dimension (1, k); lb specifies the lower bounds for
 the k variables}
 
-\item{ub}{numeric vector of shape (1, k); ub specifies the upper bounds for
+\item{ub}{1*k numeric vector that specifies the upper bounds for
 the k variables}
 
-\item{B}{integer scalor; B specifies the number of bootstrap operations}
+\item{B}{integer scalar; B specifies the number of bootstrap operations}
 
-\item{alpha}{numeric scalor between 0 and 1; alpha specifies the nominal
-confidence level, 1 - alpha, of the confidence region}
+\item{alpha}{numeric scalar between 0 and 1; alpha specifies the nominal
+confidence level, (1 - alpha)*100\%, of the confidence region}
 
-\item{maximization}{boolean scalor; if specifies whether the algorithm
-computes the confidence region for the maxima or minima}
+\item{maximization}{boolean scalar; specifies whether the algorithm
+computes the confidence region for a maximum or a minimun}
 
-\item{axes_labels}{vector of strings; it specifies the name of each experimental factor
-to be displayed on the CR plot; the default value is NULL, when
-the labels will be set to x1, x2, ...}
+\item{axes_labels}{vector of strings; specifies the name of each variable or experimental
+factor to be displayed on the CR plot; the default value is NULL,
+which sets labels as "x1", "x2", etc.}
 
 \item{outputPDFFile}{name of the PDF file where the CR plot is saved
 (default: "CR_plot.pdf")}
 
-\item{verbose}{boolean scalor; it specifies whether to display running status}
+\item{verbose}{boolean scalar; specifies whether or not to display status of the
+bootstrapping/optimization iterations}
+
+\item{local_plot}{boolean scalar; specifies whether or to display the confidence region on the screen}
 }
 \value{
-Upon completion, a figure displaying the confidence region of the true optimum
-        projected onto each pairwise-variable planes will be created (a pdf file will
-        also be generated), and the function also returns a list consisting of
-        2 components:
+Upon completion, a pdf file with the plot displaying the confidence region of the global optimum
+        projected onto each pairwise-variable planes.
+        If local_plot = TRUE, the plot will also be created on the screen.
+        The function also returns a list consisting of 2 components:
         \describe{
-          \item{boot_optima}{numeric matrix of shape ((1 - alpha)B, k);
-                             it contains the (1 - alpha)B bootstrap optima}
-          \item{bagged_optimum}{numeric vector of shape (1, k); the bagged
-                                optimum; computed by taking the column average
+          \item{boot_optima}{numeric matrix of dimension ((1 - alpha)*B, k);
+                             it contains the (1 - alpha)*B bootstrap optima}
+          \item{bagged_optimum}{numeric vector of dimension (1, k) containing the bagged
+                                optimum, computed by taking the column average
                                 of boot_optima}
         }
 }
 \description{
-Computes and displays an approximated (1 - alpha) confidence region (CR) for
-the bound-constrained maximum of a polynomial regression model in up to cubic order
+Computes and displays an approximated (1 - alpha)*100\% confidence region (CR) for
+the bound-constrained optimum of a fitted polynomial regression model of up to cubic order
 with up to 5 controllable factors
 \insertCite{DelCastilloCR}{OptimaRegion}.
 }
@@ -65,7 +79,7 @@ with up to 5 controllable factors
 Enrique del Castillo \email{exd13@psu.edu},
 Peng Chen \email{pfc5098@psu.edu},
 Adam Meyers \email{akm5733@psu.edu},
-John Hunt \email{J.Hunt@exeter.ac.uk} and
+John Hunt \email{J.Hunt@westernsydney.edu.au} and
 James Rapkin \email{jr297@exeter.ac.uk}.
 }
 

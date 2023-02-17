@@ -1,6 +1,6 @@
 #' Confidence region for optima of Thin Plate Spline Models (2 regressors)
 #'
-#' Computes and displays an approximated (1 - alpha) confidence region (CR) for
+#' Computes and displays an approximated (1 - alpha)*100% confidence region (CR) for
 #' the linear-constrained maximum of a penalized Thin Plate Spline (TPS) model
 #' in 2 controllable factors
 #' \insertCite{DelCastilloCR}{OptimaRegion}.
@@ -34,7 +34,7 @@
 #' @param outputOptimaFile name of the text file containing the coordinates of all
 #'        the optima found (same information as in output vector xin, see below)
 #' @return Upon completion, a PDF file containing the CR plot with name as set in
-#'         ouputPDFFile is created and a text file with all xin values is created too.
+#'         ouputPDFFile is created and a text file with all optima in the CR is created too.
 #'         Also, the function returns a list containing
 #'         the following 2 components:
 #'         \describe{
@@ -53,7 +53,7 @@
 #' \dontrun{
 #' # Example 1: randomly generated 2-variable response surface data
 #' X <- cbind(runif(100, -2, 2), runif(100, -2, 2))
-#' y <- as.matrix(72 - 11.78 * X[, 1] + 0.74 * X[, 2] - 7.25 * X[, 1]^2 - 
+#' y <- as.matrix(72 - 11.78 * X[, 1] + 0.74 * X[, 2] - 7.25 * X[, 1]^2 -
 #'   7.55 * X[, 2]^2 - 4.85 * X[, 1] * X[, 2] + rnorm(100, 0, 8))
 #' # Find a 95 percent confidence region for the maximum of a Thin Plate Spline
 #' # model fitted to these data
@@ -88,13 +88,14 @@ OptRegionTps <- function(X, y, lambda = 0.04, nosim = 1000, alpha = 0.05, LB, UB
   if ((k > 2) | (k < 2)) stop("Error. Number of factors must equal to 2")
 
   # If experimental region was specified as triangular, compute the parameteres defining the 3 lines that approximate its shape.
+  epsi <-0.001
   if (triangularRegion) {
     x11p <- vertex1[1] # user defined vertices; vertex 1 and 2 are clockwise on the plane; third vertex is (0,0)
     x21 <- vertex1[2]
     x12 <- vertex2[1]
     x22 <- vertex2[2]
-    m1 <- x21 / x11p
-    m2 <- x22 / x12
+    m1 <- x21 / (x11p+epsi) # to avoid error if vertex1[1] =0
+    m2 <- x22 / (x12+epsi)
     m3 <- (x21 - x22) / (x11p - x12)
     bintercept <- x22 - m3 * x12
   } else {
@@ -235,8 +236,8 @@ OptRegionTps <- function(X, y, lambda = 0.04, nosim = 1000, alpha = 0.05, LB, UB
   } # endfor m
 
   # Plot CR and thin plate spline fit to the experimental data on output file
-  pdf(file = outputPDFFile, 5.5, 5.5) # comment out to have output to screen
-  # x11() # uncomment to have output to screen
+ pdf(file = outputPDFFile, 5.5, 5.5) # comment out to have output to screen
+  #x11() # uncomment to have output to screen
   # library("splancs",lib.loc=t)
   # library("maptools",lib.loc=t)
   # library("Hmisc",lib.loc=t)
@@ -254,8 +255,8 @@ OptRegionTps <- function(X, y, lambda = 0.04, nosim = 1000, alpha = 0.05, LB, UB
   # Draw contour plot of Tps fitted to available data
   tpsfit <- fields::Tps(X, y, lambda = lambda)
   surface <- fields::predictSurface(tpsfit)
-  image(surface, lwd = 2, col = heat.colors(0), cex.axis = 1.35, cex.lab = 1.5, xlim = c(LB[1], UB[1]), ylim = c(LB[2], UB[2]))
-  contour(surface, add = T, drawlabels = T, lwd = 2, cex.axis = 1.35, cex.lab = 1.5, xlim = c(LB[1], UB[1]), ylim = c(LB[2], UB[2]))
+  image(surface, lwd = 2, col = heat.colors(0,alpha=1), cex.axis = 1.35, cex.lab = 1.5, xlim = c(LB[1], UB[1]), ylim = c(LB[2], UB[2]))
+  contour(surface,  drawlabels = TRUE, lwd = 2, cex.axis = 1.35, cex.lab = 1.5, xlim = c(LB[1], UB[1]), ylim = c(LB[2], UB[2]),add = TRUE)
   # par(new=TRUE)
   # par(cex.axis=1.35, cex.lab=1.5)
   # par(xaxt='n', yaxt='n')

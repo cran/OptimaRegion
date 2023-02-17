@@ -4,12 +4,14 @@
 \name{Drug}
 \alias{Drug}
 \title{Mixture-amount experiment dataset (2 factors)}
-\format{A data frame with 360 observations on the following 3 variables.
+\format{
+A data frame with 360 observations on the following 3 variables.
 \describe{
 \item{Component_1}{Component 1 amount (mg)}
 \item{Component_2}{Component 2 amount (mg)}
 \item{Percent}{Percent of cells killed (response)}
-}}
+}
+}
 \usage{
 Drug
 }

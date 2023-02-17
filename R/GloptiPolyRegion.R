@@ -1,39 +1,41 @@
-#' Confidence region for optima of up to cubic polynomial models (up to 5 regressors)
+#' Confidence region for optima of higher order polynomial models in multiple factors
 #'
-#' Computes and displays an approximated (1 - alpha) confidence region (CR) for
-#' the bound-constrained maximum of a polynomial regression model in up to cubic order
+#' Computes and displays an approximated (1 - alpha)*100\% confidence region (CR) for
+#' the bound-constrained optimum of a fitted polynomial regression model of up to cubic order
 #' with up to 5 controllable factors
 #' \insertCite{DelCastilloCR}{OptimaRegion}.
 #'
-#' @param X numeric matrix of shape (N, k); N is the sample size; k is the
-#'          number of variables, which can be 2, 3, 4 and 5; X specifies the
+#' @param X an N*k numeric matrix where N is the number of experiments and k is the
+#'          number of variables/factors (an integer in [2,5]). X specifies the
 #'          design matrix
-#' @param y numeric vector of shape (N, 1); y specifies the responses
-#' @param degree integer scalor; degree specifies the order of the polynomial
+#' @param y N*1 numeric vector that specifies the responses
+#' @param degree integer scalar; degree specifies the order of the polynomial
 #'               model, which can be 2 or 3
-#' @param lb numeric vector of shape (1, k); lb specifies the lower bounds for
+#' @param lb numeric vector of dimension (1, k); lb specifies the lower bounds for
 #'           the k variables
-#' @param ub numeric vector of shape (1, k); ub specifies the upper bounds for
+#' @param ub 1*k numeric vector that specifies the upper bounds for
 #'           the k variables
-#' @param B integer scalor; B specifies the number of bootstrap operations
-#' @param alpha numeric scalor between 0 and 1; alpha specifies the nominal
-#'              confidence level, 1 - alpha, of the confidence region
-#' @param maximization boolean scalor; if specifies whether the algorithm
-#'                     computes the confidence region for the maxima or minima
-#' @param axes_labels vector of strings; it specifies the name of each experimental factor
-#'                    to be displayed on the CR plot; the default value is NULL, when
-#'                    the labels will be set to x1, x2, ...
-#' @param verbose boolean scalor; it specifies whether to display running status
+#' @param B integer scalar; B specifies the number of bootstrap operations
+#' @param alpha numeric scalar between 0 and 1; alpha specifies the nominal
+#'              confidence level, (1 - alpha)*100\%, of the confidence region
+#' @param maximization boolean scalar; specifies whether the algorithm
+#'                     computes the confidence region for a maximum or a minimun
+#' @param axes_labels vector of strings; specifies the name of each variable or experimental
+#'                    factor to be displayed on the CR plot; the default value is NULL,
+#'                    which sets labels as "x1", "x2", etc.
+#' @param verbose boolean scalar; specifies whether or not to display status of the
+#'                bootstrapping/optimization iterations
+#' @param local_plot boolean scalar; specifies whether or to display the confidence region on the screen
 #' @inheritParams OptRegionQuad
-#' @return Upon completion, a figure displaying the confidence region of the true optimum
-#'         projected onto each pairwise-variable planes will be created (a pdf file will
-#'         also be generated), and the function also returns a list consisting of
-#'         2 components:
+#' @return Upon completion, a pdf file with the plot displaying the confidence region of the global optimum
+#'         projected onto each pairwise-variable planes.
+#'         If local_plot = TRUE, the plot will also be created on the screen.
+#'         The function also returns a list consisting of 2 components:
 #'         \describe{
-#'           \item{boot_optima}{numeric matrix of shape ((1 - alpha)B, k);
-#'                              it contains the (1 - alpha)B bootstrap optima}
-#'           \item{bagged_optimum}{numeric vector of shape (1, k); the bagged
-#'                                 optimum; computed by taking the column average
+#'           \item{boot_optima}{numeric matrix of dimension ((1 - alpha)*B, k);
+#'                              it contains the (1 - alpha)*B bootstrap optima}
+#'           \item{bagged_optimum}{numeric vector of dimension (1, k) containing the bagged
+#'                                 optimum, computed by taking the column average
 #'                                 of boot_optima}
 #'         }
 #' @inheritSection OptRegionQuad Author(s)
@@ -65,8 +67,8 @@
 #' }
 #' @export
 GloptiPolyRegion <- function(X, y, degree, lb, ub, B = 200, alpha = 0.05,
-                             maximization = TRUE, axes_labels = NULL, 
-                             outputPDFFile = "CRplot.pdf", verbose = TRUE) {
+                             maximization = TRUE, axes_labels = NULL,
+                             outputPDFFile = "CRplot.pdf", verbose = TRUE, local_plot = FALSE) {
   X <- data.frame(X)
   y <- data.frame(y)
   # Check polynomial order -- -----------------------------------------------
@@ -78,7 +80,6 @@ GloptiPolyRegion <- function(X, y, degree, lb, ub, B = 200, alpha = 0.05,
     stop("This function accepts only 2 - 5 variables!")
   }
   # Simplify function arguments ---------------------------------------------
-  plot_CR <- TRUE # draw pairwise projected CR's
   scale <- TRUE # scale X to [-1, 1]
   # Original fit ------------------------------------------------------------
   if (verbose) print("Fit original model ...")
@@ -138,19 +139,19 @@ GloptiPolyRegion <- function(X, y, degree, lb, ub, B = 200, alpha = 0.05,
   if (scale) boot_optima <- decode_orthogonal(boot_optima, lb, ub)
   bagged_optimum <- apply(boot_optima, 2, mean)
   # plotting ----------------------------------------------------------------
-  if (plot_CR) {
-    if (verbose) print("Ploting the confidence region ... ")
-    draw_2D_CRs(
-      boot_optima, bagged_optimum, lb, ub,
-      axes_labels = axes_labels
-    )
-    pdf(file = outputPDFFile)
+  if (verbose) print("Ploting the confidence region ... ")
+  if(local_plot){
     draw_2D_CRs(
       boot_optima, bagged_optimum, lb, ub,
       for_dev = FALSE, axes_labels = axes_labels
     )
-    dev.off()
   }
+  pdf(file = outputPDFFile)
+  draw_2D_CRs(
+    boot_optima, bagged_optimum, lb, ub,
+    for_dev = FALSE, axes_labels = axes_labels
+  )
+  dev.off()
   # return ------------------------------------------------------------------
   list(boot_optima = boot_optima, bagged_optimum = bagged_optimum)
 }

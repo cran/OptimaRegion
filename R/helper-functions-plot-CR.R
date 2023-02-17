@@ -14,34 +14,18 @@
 # @return a figure displaying the confidence region of the true optimum,
 #         along with the boostrap optima and the boosted optimum,
 #         projected onto a 2D plane
-draw_2D_CR <- function(boot_optima, boost_optimum,
+draw_2D_CR <- function(boot_optima,
+                       boost_optimum, # typo, should be bagged optimum
                        xlab, ylab, xlim, ylim) {
   # get the indices of the points that are on the boundary of the convex hull
   id_cvx_hull <- chull(boot_optima)
   id_cvx_hull <- c(id_cvx_hull, id_cvx_hull[1]) # add 1st point to get a loop
-  # cluster the bootstrap optima
-  cluster_boot_optima <- try( # in case of perfect fit
-    mclust::densityMclust(boot_optima, verbose = FALSE),
-    silent = TRUE
-  )
-  if (!inherits(cluster_boot_optima, "try-error")) {
-    # plot contours of estimated density of the bootstrap optima
-    plot(cluster_boot_optima,
-      what = "density", type = "hdr", col = "gray",
-      xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim
-    )
-    # plot the bootstrap optima points
-    points(boot_optima,
-      col = "black", cex = 0.5, pch = 16,
-      xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim
-    )
-  } else {
-    plot(boot_optima,
-      col = "black", cex = 0.5, pch = 16,
-      xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim
-    )
-  }
   # plot the boundary of the convex hull of the bootstrap optima
+  plot(
+    boot_optima[id_cvx_hull, ],
+    col = "black", cex = 0.01, pch = 16,
+    xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim
+  )
   lines(boot_optima[id_cvx_hull, ], col = "black")
   # plot the boosted optimum
   points(boost_optimum[1], boost_optimum[2], col = "red", cex = 1, pch = 16)
